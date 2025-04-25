@@ -1,0 +1,26 @@
+#!/bin/bash --login
+########## SBATCH Lines for Resource Request ##########
+#SBATCH --time=5:00:00# limit of wall clock time - how long the job will run (same as -t)
+#SBATCH --nodes=1-5# number of different nodes - could be an exact number or a range of nodes (same as -N)
+#SBATCH --ntasks=1# number of tasks - how many tasks (nodes) that you require (same as -n)
+#SBATCH --cpus-per-task=3# number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem-per-cpu=25G# memory required per allocated CPU (or core) - amount of memory (in bytes)
+#SBATCH --gres=gpu:1
+#SBATCH --job-name Attempt1_BioreactorOptimization# you can give your job a name for easier identification (same as -J)
+########## Command Lines for Job Running ##########
+
+module load Python/3.11.3-GCCcore-12.3.0 
+
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install fancyimpute
+pip install sklearn
+pip install tensorflow
+pip install openpyxl
+
+cd /mnt/home/schul787/CHE_883/
+python BioreactorOptimization_Attempt3.py #decreased learning rate and increased batch size
+
+scontrol show job $SLURM_JOB_ID
+s -j $SLURM_JOB_ID
